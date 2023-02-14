@@ -6,7 +6,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import java.util.List;
 public class CitiesPage extends BasePage{
     public CitiesPage(WebDriver driver, WebDriverWait wait) {
         super(driver, wait);
@@ -26,6 +25,7 @@ public class CitiesPage extends BasePage{
                 (By.xpath("//div[contains(@class, 'v-dialog')]//header[contains(@class, 'warning')]")));
     }
     public WebElement getSaveButtonFromDialogue(){
+
         return driver.findElement(By.className("btnSave"));
     }
     public WebElement getDeleteButtonFromDialogue(){
@@ -46,6 +46,7 @@ public class CitiesPage extends BasePage{
         return driver.findElement(By.xpath("//tr["+row+"]/td[1]/div/button[@id='delete']"));
     }
     public WebElement getCityNameInput(){
+
         return driver.findElement(By.id("name"));
     }
 }

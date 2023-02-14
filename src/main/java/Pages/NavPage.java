@@ -2,70 +2,54 @@ package Pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-public class NavPage extends BasePage {
+public class NavPage extends BasePage{
     public NavPage(WebDriver driver, WebDriverWait wait) {
         super(driver, wait);
     }
-
-    public WebElement getHomeLink() {
-        return driver.findElement(By.xpath("//a[@href='/home']"));
+    public WebElement getLanguageButton(){
+        return driver.findElement(By.cssSelector(".btnLocaleActivation"));
     }
-
-    public WebElement getAboutLink() {
-        return driver.findElement(By.xpath("//a[@href='/about']"));
+    public WebElement getEnFromDropDown(){
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(By
+                .cssSelector(".v-menu__content .v-list-item:nth-child(1)")));
     }
-
-    public WebElement getMyProfileLink() {
-        return driver.findElement(By.xpath("//a[@href='/profile']"));
+    public WebElement getEsFromDropDown(){
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(By
+                .cssSelector(".v-menu__content .v-list-item:nth-child(2)")));
     }
-
-    public WebElement getAdminButton() {
-        return driver.findElement(By.className("btnAdmin"));
+    public WebElement getFrFromDropDown(){
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(By
+                .cssSelector(".v-menu__content .v-list-item:nth-child(3)")));
     }
-
-    public WebElement getCitiesLink() {
-        return driver.findElement(By.xpath("//a[@href='/admin/cities']"));
+    public WebElement getCnFromDropDown(){
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(By
+                .cssSelector(".v-menu__content .v-list-item:nth-child(4)")));
     }
-
-    public WebElement getUsersLink() {
-        return driver.findElement(By.xpath("//a[@href='/admin/users']"));
+    public WebElement getUaFromDropDown(){
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(By
+                .cssSelector(".v-menu__content .v-list-item:nth-child(5)")));
     }
-
-    public WebElement getLoginButtonLink() {
-        return driver.findElement(By.xpath("//a[@href='/login']"));
+    public WebElement getPageHeader(){
+        return driver.findElement(By.cssSelector("h1"));
     }
-
-    public WebElement getSignUpButtonLink() {
-        return driver.findElement(By.xpath("//a[@href='/signup']"));
+    public WebElement getLoginButton(){
+        return driver.findElement(By.cssSelector("a[href='/login']"));
     }
-
-    public WebElement getLogoutButton() {
-        return driver.findElement(By.className("btnLogout"));
+    public WebElement getMyProfileLink(){
+        return driver.findElement(By.cssSelector("a[href='/profile']"));
     }
-
-    public WebElement getChangeLanguageButton() {
-        return driver.findElement(By.xpath("//button[contains(@class, 'btnLocaleActivation')]"));
+    public WebElement getLogoutButton(){
+        return wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.cssSelector(".btnLogout"))));
     }
-
-    public WebElement getEnLanguageButton() {
-        return driver.findElement(By.id("list-item-73"));
+    public WebElement getSignupLink(){
+        return driver.findElement(By.cssSelector("a[href='/signup']"));
     }
-
-    public WebElement getEsLanguageButton() {
-        return driver.findElement(By.id("list-item-75"));
+    public WebElement getAdminButton(){
+        return driver.findElement(By.cssSelector(".btnAdmin"));
     }
-
-    public WebElement getFrLanguageButton() {
-        return driver.findElement(By.id("list-item-77"));
-    }
-
-    public WebElement getCnLanguageButton() {
-        return driver.findElement(By.id("list-item-79"));
-    }
-
-    public WebElement getUaLanguageButton() {
-        return driver.findElement(By.id("list-item-81"));
+    public WebElement getCitiesLink(){
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".btnAdminCities")));
     }
 }

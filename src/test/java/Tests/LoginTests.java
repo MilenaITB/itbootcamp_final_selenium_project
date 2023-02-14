@@ -1,70 +1,90 @@
 package Tests;
+
 import com.sun.org.glassfish.gmbal.Description;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-public class LoginTests extends BasicTest{
-    @Test(priority = 10)
-    @Description("Test #1: Visits the login page")
-    public void visitTheLoginPage(){
 
-        navPage.getChangeLanguageButton().click();
-        navPage.getEnLanguageButton().click();
-        navPage.getLoginButtonLink().click();
-        Assert.assertTrue(driver.getCurrentUrl().contains("/login"),
-                "Wrong URL, not on login page!");
+public class LoginTests extends BasicTest{
+
+
+    @Test(priority = 1)
+    @Description("Test #1: Visits the login page")
+    public void visitLoginPage(){
+        navPage.getLanguageButton().click();
+        navPage.getEnFromDropDown().click();
+        navPage.getLoginButton().click();
+
+        CheckUrl("/login");
     }
-    @Test(priority = 20)
+    @Test(priority = 2)
     @Description("Test #2: Checks input types")
-    public void checkInputTypes(){
-        navPage.getLoginButtonLink().click();
-        Assert.assertEquals(loginPage.getEmailInput().getAttribute("type"), "email",
-                "Wrong email type.");
-        Assert.assertEquals(loginPage.getPasswordInput().getAttribute("type"), "password",
-                "Wrong password type.");
+    public void CheckInputTypes(){
+
+        navPage.getLoginButton().click();
+        Assert.assertEquals(loginPage.getEmailInput().getAttribute("type"),
+                "email", "Attribute type is incorrect");
+
+        Assert.assertEquals(loginPage.getPasswordInput().getAttribute("type"),
+                "password", "Attribute type is incorrect");
+
     }
-    @Test(priority = 30)
+    @Test(priority = 3)
     @Description("Test #3: Displays errors when user does not exist")
-    public void errorWhenUserDoesNotExist(){
-        navPage.getLoginButtonLink().click();
-        loginPage.getEmailInput().sendKeys("non-existing-user@gmal.com");
-        loginPage.getPasswordInput().sendKeys("password123");
+    public void userDoesNotExist(){
+        String email = "non-existing-user@gmal.com";
+        String password = "password123";
+
+        navPage.getLoginButton().click();
+        loginPage.getEmailInput().sendKeys(email);
+        loginPage.getPasswordInput().sendKeys(password);
         loginPage.getLoginButton().click();
-        messagePopUpPage.waitForPopUp();
-        Assert.assertTrue(messagePopUpPage.popUpText().contains("User does not exists"),
-                "Error notification doesn't contain 'User does not exists' text");
-        Assert.assertTrue(driver.getCurrentUrl().contains("/login"),
-                "Wrong URL, not on login page!");
+
+        wait.until(ExpectedConditions.visibilityOf(messagePopUpPage.getStatusPopUp()));
+
+        Assert.assertEquals(messagePopUpPage.getStatusErrorMessage().getText(),
+                "User does not exists",
+                "Error message is incorrect");
+
+        CheckUrl("/login");
     }
-    @Test(priority = 40)
+    @Test(priority = 4)
     @Description("Test #4: Displays errors when password is wrong")
-    public void errorWhenPasswordIsWrong(){
-        navPage.getLoginButtonLink().click();
-        loginPage.getEmailInput().sendKeys("admin@admin.com");
-        loginPage.getPasswordInput().sendKeys("password123");
+    public void passwordIsWrong(){
+        String email = "admin@admin.com";
+        String password = "password123";
+
+        navPage.getLoginButton().click();
+        loginPage.getEmailInput().sendKeys(email);
+        loginPage.getPasswordInput().sendKeys(password);
         loginPage.getLoginButton().click();
-        messagePopUpPage.waitForPopUp();
-        Assert.assertTrue(messagePopUpPage.popUpText().contains("Wrong password"),
-                "Error notification doesn't contain 'Wrong password' text");
-        Assert.assertTrue(driver.getCurrentUrl().contains("/login"),
-                "Wrong URL, not on login page!");
+
+        wait.until(ExpectedConditions.visibilityOf(messagePopUpPage.getStatusPopUp()));
+
+        Assert.assertEquals(messagePopUpPage.getStatusErrorMessage().getText(),
+                "Wrong password",
+                "Error message is incorrect");
+
+        CheckUrl("/login");
     }
-    @Test(priority = 50)
-    @Description("Test #5: Login")
-    public void login() throws InterruptedException {
-        navPage.getLoginButtonLink().click();
-        loginPage.getEmailInput().sendKeys("admin@admin.com");
-        loginPage.getPasswordInput().sendKeys("12345");
+    @Test(priority = 5)
+    @Description("Login with correct credentials")
+    public void Login(){
+        String email = "admin@admin.com";
+        String password = "12345";
+
+        navPage.getLoginButton().click();
+        loginPage.getEmailInput().sendKeys(email);
+        loginPage.getPasswordInput().sendKeys(password);
         loginPage.getLoginButton().click();
-        Thread.sleep(1000);
-        Assert.assertTrue(driver.getCurrentUrl().contains("/home"),
-                "Wrong URL, not on home page!");
+
+        wait.until(ExpectedConditions.urlContains("/home"));
+
     }
-    @Test(priority = 60)
-    @Description("Test #6: Logout")
-    public void logout(){
-        Assert.assertTrue(navPage.getLogoutButton().isDisplayed(), "Logout button is not visible");
+    @Test(priority = 6)
+    @Description("Logout user")
+    public void Logout(){
         navPage.getLogoutButton().click();
     }
-}
 
+}

@@ -1,17 +1,14 @@
 package Tests;
 
 import com.sun.org.glassfish.gmbal.Description;
-import io.opentelemetry.semconv.trace.attributes.SemanticAttributes;
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class ProfileTests extends BasicTest {
 
-    @Test(priority = 10)
+    @Test(priority = 1)
     @Description("Test #1: Visits the profile page")
-    public void visitProfilePage() {
+    public void visitProfilePage() throws InterruptedException {
         String email = "admin@admin.com";
         String password = "12345";
 
@@ -24,21 +21,23 @@ public class ProfileTests extends BasicTest {
         navPage.getMyProfileLink().click();
         waitForUrl("/profile");
 
-
+        Thread.sleep(1000);
         navPage.getLogoutButton().click();
     }
 
-    @Test(priority = 20)
+    @Test(priority = 2)
     @Description("Test #2: Checks input types")
-    public void checkInputTypes() {
+    public void checkInputTypes() throws InterruptedException {
         String email = "admin@admin.com";
         String password = "12345";
 
+        Thread.sleep(1000);
         navPage.getLoginButton().click();
 
         loginPage.getEmailInput().sendKeys(email);
         loginPage.getPasswordInput().sendKeys(password);
         loginPage.getLoginButton().click();
+        Thread.sleep(1000);
 
         navPage.getMyProfileLink().click();
         waitForUrl("/profile");
