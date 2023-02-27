@@ -8,17 +8,17 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
-import java.util.Calendar;
 import java.util.Date;
 public abstract class BasicTest {
     protected WebDriver driver;
@@ -49,16 +49,18 @@ public abstract class BasicTest {
     }
     @BeforeMethod
     public void beforeMethod(){
+
         driver.get(baseUrl);
     }
     @AfterMethod
-    public void afterMethod() throws IOException {
-        Date date = Calendar.getInstance().getTime();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh-mm-ss");
-        String strDate = dateFormat.format(date);
-        File f=((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-        Files.copy(f.toPath(), new File("screenshots/screenshot"+strDate+".jpg").toPath());
+    public void afterMethod(ITestResult result) throws IOException {
+        if (result.getStatus() == ITestResult.FAILURE) {
+            File file = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+            String timestamp = new SimpleDateFormat("dd-MM-yyyy__hh-mm-ss").format(new Date());
+            Files.copy(file.toPath(), new File("screenshots/" + result.getName() + " - " + timestamp + ".png").toPath());
+        }
     }
+
     @AfterClass
     public void afterClass(){
 
